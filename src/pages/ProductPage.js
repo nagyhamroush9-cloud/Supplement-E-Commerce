@@ -12,6 +12,7 @@ import { Breadcrumbs, StarRating, Badge, QuantitySelector, EmptyState } from '..
 import { formatPrice } from '../utils/format.js';
 import { updateSEO } from '../utils/seo.js';
 import { escapeHtml } from '../utils/dom.js';
+import { assetUrl } from '../utils/assets.js';
 import { t, getLocalizedCategory } from '../services/i18nService.js';
 import { track, Events } from '../services/analyticsService.js';
 
@@ -36,16 +37,18 @@ export function ProductPage(slug) {
   const fav = isFavorite(product.id);
   const related = getRelatedProducts(product);
 
+  const productPlaceholder = assetUrl('/assets/products/placeholder.svg');
+
   updateSEO({
     title: product.name,
     description: product.shortDescription,
-    image: product.thumbnail,
+    image: assetUrl(product.thumbnail),
   });
 
   const gallery = product.images
     .map(
       (img, i) =>
-        `<button type="button" class="gallery__thumb ${i === 0 ? 'gallery__thumb--active' : ''}" data-gallery-thumb="${i}"><img src="${escapeHtml(img)}" alt="${escapeHtml(product.name)} view ${i + 1}" loading="${i === 0 ? 'eager' : 'lazy'}" onerror="this.src='/assets/products/placeholder.svg'" /></button>`
+        `<button type="button" class="gallery__thumb ${i === 0 ? 'gallery__thumb--active' : ''}" data-gallery-thumb="${i}"><img src="${escapeHtml(assetUrl(img))}" alt="${escapeHtml(product.name)} view ${i + 1}" loading="${i === 0 ? 'eager' : 'lazy'}" onerror="this.src='${escapeHtml(productPlaceholder)}'" /></button>`
     )
     .join('');
 
@@ -95,7 +98,7 @@ export function ProductPage(slug) {
         <div class="product-detail">
           <div class="product-detail__gallery">
             <div class="gallery__main">
-              <img src="${escapeHtml(product.images[0])}" alt="${escapeHtml(product.name)}" class="gallery__main-img" data-gallery-main onerror="this.src='/assets/products/placeholder.svg'" />
+              <img src="${escapeHtml(assetUrl(product.images[0]))}" alt="${escapeHtml(product.name)}" class="gallery__main-img" data-gallery-main onerror="this.src='${escapeHtml(productPlaceholder)}'" />
             </div>
             <div class="gallery__thumbs">${gallery}</div>
           </div>

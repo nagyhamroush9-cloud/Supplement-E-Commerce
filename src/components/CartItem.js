@@ -1,5 +1,6 @@
 import { formatPrice } from '../utils/format.js';
 import { escapeHtml } from '../utils/dom.js';
+import { assetUrl } from '../utils/assets.js';
 import { QuantitySelector } from './UI.js';
 import { t } from '../services/i18nService.js';
 
@@ -8,7 +9,7 @@ export function CartItem(item) {
   return `
     <div class="cart-item" data-cart-item data-id="${escapeHtml(item.id)}" data-flavor="${escapeHtml(item.flavor || '')}">
       <a href="#/product/${escapeHtml(item.slug || item.id)}" class="cart-item__image">
-        <img src="${escapeHtml(item.thumbnail)}" alt="${escapeHtml(item.name)}" loading="lazy" />
+        <img src="${escapeHtml(assetUrl(item.thumbnail))}" alt="${escapeHtml(item.name)}" loading="lazy" />
       </a>
       <div class="cart-item__details">
         <h3 class="cart-item__name">${escapeHtml(item.name)}</h3>

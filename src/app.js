@@ -28,6 +28,7 @@ import { getProductById, isInStock } from './services/productService.js';
 import { initLanguage, setLanguage, getLanguage, t } from './services/i18nService.js';
 import { formatPrice } from './utils/format.js';
 import { escapeHtml, syncQuantitySelector } from './utils/dom.js';
+import { assetUrl } from './utils/assets.js';
 import { track, Events } from './services/analyticsService.js';
 import { initPageAnimations, destroyPageAnimations } from './utils/animationService.js';
 
@@ -227,7 +228,7 @@ function showQuickView(productId) {
   if (content) {
     content.innerHTML = `
       <div class="quick-view">
-        <img src="${escapeHtml(product.thumbnail)}" alt="${escapeHtml(product.name)}" class="quick-view__img" />
+        <img src="${escapeHtml(assetUrl(product.thumbnail))}" alt="${escapeHtml(product.name)}" class="quick-view__img" />
         <div class="quick-view__info">
           <h3>${escapeHtml(product.name)}</h3>
           <p class="quick-view__price">${formatPrice(product.price)}</p>

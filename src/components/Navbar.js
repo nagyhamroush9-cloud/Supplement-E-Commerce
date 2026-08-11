@@ -4,6 +4,7 @@ import { t, getLanguage } from '../services/i18nService.js';
 import { getCategories } from '../services/productService.js';
 import { getLocalizedCategory } from '../services/i18nService.js';
 import { escapeHtml } from '../utils/dom.js';
+import { assetUrl } from '../utils/assets.js';
 
 function isCategoriesView(path, query) {
   if (path !== '/shop') return false;
@@ -28,7 +29,7 @@ export function BrandLogo() {
   return `
     <span class="brand-logo">
       <img
-        src="/assets/logo.png"
+        src="${assetUrl('/assets/logo.png')}"
         alt="${escapeHtml(storeConfig.brandName)}"
         class="brand-logo__img"
         width="304"

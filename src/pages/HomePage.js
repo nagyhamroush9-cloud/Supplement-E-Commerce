@@ -4,6 +4,7 @@ import { ProductGrid } from '../components/ProductCard.js';
 import { updateSEO } from '../utils/seo.js';
 import { t } from '../services/i18nService.js';
 import { escapeHtml } from '../utils/dom.js';
+import { assetUrl } from '../utils/assets.js';
 
 const highlightConfig = [
   { key: 'original', icon: 'shield' },
@@ -29,7 +30,7 @@ export function HomePage() {
       <section class="hero hero--sh" aria-label="${escapeHtml(t('nav.home'))}">
         <div class="hero__media" aria-hidden="true">
           <img
-            src="/assets/hero/hero-athlete-modern.png"
+            src="${assetUrl('/assets/hero/hero-athlete-modern.png')}"
             alt=""
             class="hero__media-img"
             width="1376"
@@ -43,7 +44,7 @@ export function HomePage() {
           <div class="hero__panel">
             <div class="hero__logo">
               <img
-                src="/assets/logo.png"
+                src="${assetUrl('/assets/logo.png')}"
                 alt="${escapeHtml(storeConfig.brandName)}"
                 class="hero__logo-img"
                 width="304"
@@ -54,7 +55,7 @@ export function HomePage() {
             <div class="hero__copy">
               <h1 class="hero__headline">
                 <img
-                  src="/assets/hero/fuel-your-potential.png"
+                  src="${assetUrl('/assets/hero/fuel-your-potential.png')}"
                   alt="FUEL YOUR POTENTIAL"
                   class="hero__headline-img"
                   width="2200"

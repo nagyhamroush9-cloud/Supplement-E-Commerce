@@ -7,7 +7,11 @@ import { isFavorite } from '../services/favoritesService.js';
 import { formatPrice } from '../utils/format.js';
 import { t, getLocalizedCategory } from '../services/i18nService.js';
 import { escapeHtml } from '../utils/dom.js';
+import { assetUrl } from '../utils/assets.js';
 import { Badge, StarRating } from './UI.js';
+
+const productPlaceholder = assetUrl('/assets/products/placeholder.svg');
+const categoryPlaceholder = assetUrl('/assets/categories/placeholder.svg');
 
 export function ProductCard(product, options = {}) {
   const { showQuickView = true, variant = 'default' } = options;
@@ -52,7 +56,7 @@ export function ProductCard(product, options = {}) {
           <svg width="18" height="18" viewBox="0 0 24 24" fill="${fav ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.778l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
         </button>
         <a href="#/product/${escapeHtml(product.slug)}" class="product-card__image-link">
-          <img src="${escapeHtml(product.thumbnail)}" alt="${escapeHtml(product.name)}" loading="lazy" class="product-card__image" onerror="this.src='/assets/products/placeholder.svg'" />
+          <img src="${escapeHtml(assetUrl(product.thumbnail))}" alt="${escapeHtml(product.name)}" loading="lazy" class="product-card__image" onerror="this.src='${escapeHtml(productPlaceholder)}'" />
         </a>
         ${showQuickView ? `<button type="button" class="product-card__quick-view" data-action="quick-view" data-id="${escapeHtml(product.id)}">${escapeHtml(t('product.quickView'))}</button>` : ''}
       </div>
@@ -82,7 +86,7 @@ export function CategoryCard(category) {
   return `
     <a href="#/shop?category=${escapeHtml(category.id)}" class="category-card">
       <div class="category-card__image">
-        <img src="${escapeHtml(category.image)}" alt="${escapeHtml(getLocalizedCategory(category))}" loading="lazy" onerror="this.src='/assets/categories/placeholder.svg'" />
+        <img src="${escapeHtml(assetUrl(category.image))}" alt="${escapeHtml(getLocalizedCategory(category))}" loading="lazy" onerror="this.src='${escapeHtml(categoryPlaceholder)}'" />
       </div>
       <div class="category-card__body">
         <h3 class="category-card__title">${escapeHtml(getLocalizedCategory(category))}</h3>
