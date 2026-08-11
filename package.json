@@ -1,0 +1,16 @@
+{
+  "name": "sh-supplements",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "generate:assets": "python scripts/generate-brand-assets.py && python scripts/generate-hero-typography.py",
+    "generate:hero-text": "python scripts/generate-hero-typography.py"
+  },
+  "devDependencies": {
+    "vite": "^5.4.11"
+  }
+}
