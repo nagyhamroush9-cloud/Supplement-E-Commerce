@@ -108,6 +108,10 @@ html[dir="rtl"] .reveal--slide-end {
   html[dir="ltr"] .reveal--slide-end {
     transform: translateY(18px) translateX(1px);
   }
+
+  :root {
+    --reveal-duration: 0.85s;
+  }
 }
 
 body.language-switching .hero__panel,
@@ -119,6 +123,27 @@ body.language-switching #main-content {
 
 .reveal--slide-end.reveal--visible {
   transform: none;
+}
+
+.reveal-listing {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal-listing--play {
+  animation: listingCardIn 0.72s var(--ease-reveal) both;
+  animation-delay: var(--reveal-delay, 0s);
+}
+
+@keyframes listingCardIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* Subtle hover lift on cards after reveal */
@@ -163,5 +188,9 @@ body.language-switching #main-content {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+  }
+
+  .reveal-listing--play {
+    animation: none !important;
   }
 }
