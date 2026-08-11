@@ -6,9 +6,6 @@ const REVEAL_SELECTORS = [
   '.product-card',
   '.category-card',
   '.page-header',
-  '.shop-layout',
-  '.cart-layout',
-  '.checkout-layout',
   '.cart-item',
   '.footer__col',
   '.content-block',
@@ -35,12 +32,39 @@ function markVisibleImmediately(selector) {
 }
 
 function applyStaggerDelays() {
+  const isMobile = window.matchMedia('(max-width: 767px)').matches;
+
   document.querySelectorAll(STAGGER_PARENTS).forEach((parent) => {
+    const isListing = Boolean(parent.closest('.shop-page, .categories-page'));
+    const step = isListing && isMobile ? 0.06 : 0.16;
+    const max = isListing && isMobile ? 0.36 : 0.96;
+
     Array.from(parent.children).forEach((child, index) => {
-      if (!child.classList.contains('reveal')) return;
-      child.style.setProperty('--reveal-delay', `${Math.min(index * 0.16, 0.96)}s`);
+      const delay = `${Math.min(index * step, max)}s`;
+      if (child.classList.contains('reveal-listing') || child.classList.contains('reveal')) {
+        child.style.setProperty('--reveal-delay', delay);
+      }
     });
   });
+}
+
+function revealListingCards() {
+  document.querySelectorAll('.reveal-listing').forEach((el) => {
+    el.classList.add('reveal-listing--play');
+  });
+}
+
+function scheduleListingReveal() {
+  if (!document.querySelector('.shop-page, .categories-page')) return;
+
+  const run = () => {
+    void document.getElementById('main-content')?.offsetHeight;
+    revealListingCards();
+  };
+
+  requestAnimationFrame(() => requestAnimationFrame(run));
+  setTimeout(run, 80);
+  setTimeout(run, 320);
 }
 
 function setupRevealElements() {
@@ -50,6 +74,19 @@ function setupRevealElements() {
     document.querySelectorAll(selector).forEach((el) => {
       if (seen.has(el)) return;
       seen.add(el);
+
+      if (el.closest('.shop-page') && el.classList.contains('product-card')) {
+        el.classList.remove('reveal', 'reveal--visible', 'reveal-listing');
+        el.classList.add('reveal-listing');
+        return;
+      }
+
+      if (el.closest('.categories-page') && el.classList.contains('category-card')) {
+        el.classList.remove('reveal', 'reveal--visible', 'reveal-listing');
+        el.classList.add('reveal-listing');
+        return;
+      }
+
       el.classList.remove('reveal--visible');
       el.classList.add('reveal');
     });
@@ -64,6 +101,18 @@ function setupRevealElements() {
   });
 
   applyStaggerDelays();
+}
+
+function revealElementsInViewport() {
+  const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+  document.querySelectorAll('.reveal:not(.reveal--visible)').forEach((el) => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < viewportHeight * 0.94 && rect.bottom > 0) {
+      el.classList.add('reveal--visible');
+      revealObserver?.unobserve(el);
+    }
+  });
 }
 
 function observeRevealElements() {
@@ -83,8 +132,8 @@ function observeRevealElements() {
       });
     },
     {
-      threshold: 0.08,
-      rootMargin: '0px 0px -2% 0px',
+      threshold: 0.01,
+      rootMargin: '0px 0px 10% 0px',
     }
   );
 
@@ -92,17 +141,26 @@ function observeRevealElements() {
     revealObserver.observe(el);
   });
 
-  requestAnimationFrame(() => {
+  const revealAboveFold = () => {
     document.querySelectorAll('.hero .reveal, .page-header.reveal').forEach((el) => {
       el.classList.add('reveal--visible');
     });
-  });
+    revealElementsInViewport();
+  };
+
+  requestAnimationFrame(revealAboveFold);
+  setTimeout(revealAboveFold, 80);
+  setTimeout(revealAboveFold, 320);
+  setTimeout(revealAboveFold, 720);
 }
 
 export function initPageAnimations({ languageSwitch = false } = {}) {
   if (prefersReducedMotion()) {
     document.body.classList.add('motion-reduced');
     markVisibleImmediately(REVEAL_SELECTORS.join(', '));
+    document.querySelectorAll('.reveal-listing').forEach((el) => {
+      el.classList.add('reveal-listing--play');
+    });
     return;
   }
 
@@ -124,10 +182,14 @@ export function initPageAnimations({ languageSwitch = false } = {}) {
 
   if (languageSwitch) {
     markVisibleImmediately('.reveal');
+    document.querySelectorAll('.reveal-listing').forEach((el) => {
+      el.classList.add('reveal-listing--play');
+    });
     return;
   }
 
   observeRevealElements();
+  scheduleListingReveal();
 }
 
 export function destroyPageAnimations() {
