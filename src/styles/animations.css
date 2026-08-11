@@ -1,0 +1,167 @@
+/* ===== Page load & scroll reveal animations ===== */
+
+:root {
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --ease-reveal: cubic-bezier(0.12, 1, 0.24, 1);
+  --anim-duration: 0.72s;
+  --reveal-duration: 1.55s;
+}
+
+/* Initial load — chrome slides in */
+.topbar.chrome-enter,
+.navbar.chrome-enter {
+  animation: chromeDrop 0.75s var(--ease-out-expo) both;
+}
+
+.navbar.chrome-enter {
+  animation-delay: 0.06s;
+}
+
+@keyframes chromeDrop {
+  from {
+    opacity: 0;
+    transform: translateY(-18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Route / page content enter */
+#page-content,
+#main-content.page-enter {
+  animation: pageEnter 0.68s var(--ease-out-expo) both;
+}
+
+@keyframes pageEnter {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Floating UI */
+body.page-is-ready .floating-whatsapp,
+body.page-is-ready .floating-cart {
+  animation: floatUiIn 0.8s var(--ease-out-expo) 0.35s both;
+}
+
+body.page-is-ready .back-to-top:not([hidden]) {
+  animation: floatUiIn 0.65s var(--ease-out-expo) both;
+}
+
+@keyframes floatUiIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Scroll reveal base */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity var(--reveal-duration) var(--ease-reveal),
+    transform var(--reveal-duration) var(--ease-reveal);
+  transition-delay: var(--reveal-delay, 0s);
+  will-change: opacity, transform;
+}
+
+.reveal--visible {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+.reveal--scale {
+  transform: translateY(16px) scale(0.96);
+}
+
+.reveal--scale.reveal--visible {
+  transform: none;
+}
+
+.reveal--slide-end {
+  transform: translateY(18px) translateX(14px);
+}
+
+html[dir="rtl"] .reveal--slide-end {
+  transform: translateY(18px) translateX(-14px);
+}
+
+@media (max-width: 767px) {
+  html[dir="rtl"] .reveal--slide-end {
+    transform: translateY(18px) translateX(-1px);
+  }
+
+  html[dir="ltr"] .reveal--slide-end {
+    transform: translateY(18px) translateX(1px);
+  }
+}
+
+body.language-switching .hero__panel,
+body.language-switching .topbar,
+body.language-switching .navbar,
+body.language-switching #main-content {
+  animation: none !important;
+}
+
+.reveal--slide-end.reveal--visible {
+  transform: none;
+}
+
+/* Subtle hover lift on cards after reveal */
+.reveal--visible.product-card,
+.reveal--visible.category-card,
+.reveal--visible.highlight-card {
+  transition:
+    opacity var(--reveal-duration) var(--ease-reveal),
+    transform var(--reveal-duration) var(--ease-reveal),
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* Hero panel special entrance on first paint */
+.hero__panel {
+  animation: heroPanelIn 0.9s var(--ease-out-expo) 0.12s both;
+}
+
+@keyframes heroPanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .topbar.chrome-enter,
+  .navbar.chrome-enter,
+  #main-content.page-enter,
+  .hero__panel,
+  body.page-is-ready .floating-whatsapp,
+  body.page-is-ready .floating-cart,
+  body.page-is-ready .back-to-top {
+    animation: none !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

@@ -1,0 +1,56 @@
+[
+  {
+    "id": "protein",
+    "slug": "protein",
+    "name": "Protein",
+    "nameAr": "بروتين",
+    "description": "Whey, casein & plant-based protein supplements",
+    "icon": "protein",
+    "image": "/assets/categories/protein.svg"
+  },
+  {
+    "id": "creatine",
+    "slug": "creatine",
+    "name": "Creatine",
+    "nameAr": "كرياتين",
+    "description": "Pure creatine for strength & power",
+    "icon": "creatine",
+    "image": "/assets/categories/creatine.svg"
+  },
+  {
+    "id": "pre-workout",
+    "slug": "pre-workout",
+    "name": "Pre-Workout",
+    "nameAr": "قبل التمرين",
+    "description": "Energy & focus for intense training",
+    "icon": "pre-workout",
+    "image": "/assets/categories/pre-workout.svg"
+  },
+  {
+    "id": "vitamins",
+    "slug": "vitamins",
+    "name": "Vitamins",
+    "nameAr": "فيتامينات",
+    "description": "Essential vitamins & minerals",
+    "icon": "vitamins",
+    "image": "/assets/categories/vitamins.svg"
+  },
+  {
+    "id": "amino-acids",
+    "slug": "amino-acids",
+    "name": "Amino Acids",
+    "nameAr": "أحماض أمينية",
+    "description": "BCAA, EAA & recovery amino acids",
+    "icon": "amino-acids",
+    "image": "/assets/categories/amino-acids.svg"
+  },
+  {
+    "id": "accessories",
+    "slug": "accessories",
+    "name": "Accessories",
+    "nameAr": "إكسسوارات",
+    "description": "Shakers, bottles & fitness gear",
+    "icon": "accessories",
+    "image": "/assets/categories/accessories.svg"
+  }
+]
